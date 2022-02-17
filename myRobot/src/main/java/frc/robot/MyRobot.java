@@ -8,12 +8,16 @@ import edu.wpi.first.wpilibj.TimedRobot;
 
 @SuppressWarnings("all")
 public class MyRobot extends TimedRobot {
+
+  Runnable toRun;
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
   @Override
-  public void robotInit() {}
+  public void robotInit() {
+    toRun.run();
+  }
 
   /** This function is run once each time the robot enters autonomous mode */
   @Override

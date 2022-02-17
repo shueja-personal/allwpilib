@@ -369,6 +369,7 @@ public abstract class RobotBase implements AutoCloseable {
     }
 
     boolean errorOnExit = false;
+    Throwable error = new Throwable("message");
     try {
       robot.startCompetition();
     } catch (Throwable throwable) {
@@ -379,6 +380,7 @@ public abstract class RobotBase implements AutoCloseable {
       DriverStation.reportError(
           "Unhandled exception: " + throwable.toString(), throwable.getStackTrace());
       errorOnExit = true;
+      error = throwable;
     } finally {
       m_runMutex.lock();
       boolean suppressExitWarning = m_suppressExitWarning;
@@ -393,9 +395,7 @@ public abstract class RobotBase implements AutoCloseable {
             false);
         if (errorOnExit) {
           DriverStation.reportError(
-              "The startCompetition() method (or methods called by it) should have "
-                  + "handled the exception above.",
-              false);
+            "Unhandled exception:\n" + error.toString() + " at " + error.getStackTrace()[0].toString(), false);
         } else {
           DriverStation.reportError("Unexpected return from startCompetition() method.", false);
         }
